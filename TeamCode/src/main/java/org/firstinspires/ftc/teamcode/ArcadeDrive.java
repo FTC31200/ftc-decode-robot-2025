@@ -30,8 +30,8 @@ public class ArcadeDrive extends OpMode {
     public void init() {
 
         // get motors
-        leftMotor = hardwareMap.get(DcMotor.class, "motorEsquerda");
-        rightMotor = hardwareMap.get(DcMotor.class, "motorDireita");
+        leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
+        rightMotor = hardwareMap.get(DcMotor.class, "rightMotor");
         shooterMotor = hardwareMap.get(DcMotorEx.class, "shooterMotor");
         coreHEX = hardwareMap.get(DcMotor.class, "coreHEX");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
@@ -42,8 +42,6 @@ public class ArcadeDrive extends OpMode {
         shooterMotor.setDirection(DcMotor.Direction.REVERSE);
         coreHEX.setDirection(DcMotor.Direction.REVERSE);
         servo.setDirection(CRServo.Direction.REVERSE);
-
-
     }
 
     // spinning the CRServo

@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-// inspired and minified code of FGCLib PID implementation
+// inspired and minified code of FGCLib's PID implementation
 public class PIDController {
     private double kP;
     private double kI;
