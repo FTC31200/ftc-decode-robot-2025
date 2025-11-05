@@ -17,12 +17,12 @@ public class ArcadeDrive extends OpMode {
     private CRServo servo;
     PIDController pid = new PIDController(.005, 0, 0, .05, telemetry);
 
-    private OperatorInputs oi;
+    private OperatorInputs opInputs;
     @Override
     public void init() {
-        oi = new OperatorInputs(gamepad1, telemetry);
-        oi.gamepad = gamepad1;
-        oi.telemetry = telemetry;
+        opInputs = new OperatorInputs(gamepad1, telemetry);
+        opInputs.gamepad = gamepad1;
+        opInputs.telemetry = telemetry;
 
         // set up motors
         leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
@@ -53,10 +53,8 @@ public class ArcadeDrive extends OpMode {
     @Override
     public void loop() {
         // movement
-
-
-        double leftPower = oi.drive + oi.turn;
-        double rightPower = oi.drive - oi.turn;
+        double leftPower = opInputs.drive + opInputs.turn;
+        double rightPower = opInputs.drive - opInputs.turn;
 
         double max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
         if (max > 1.0) {
@@ -64,31 +62,33 @@ public class ArcadeDrive extends OpMode {
             rightPower /= max;
         }
 
+        opInputs.update();
+
         leftMotor.setPower(leftPower);
         rightMotor.setPower(rightPower);
 
-        if (oi.isShooterOn) {
-            double power = pid.calculate(oi.shooterSpeed, shooterMotor.getVelocity());
+        if (opInputs.isShooterOn) {
+            double power = pid.calculate(opInputs.shooterSpeed, shooterMotor.getVelocity());
             telemetry.addData("PID Power", power);
-            telemetry.addData("Is at set point", pid.atTargetPoint());
+            telemetry.addData("Is at set point", pid.isAtTargetPoint);
             shooterMotor.setPower(power);
         } else shooterMotor.setPower(0.0);
 
         // shooting
-        if (oi.shootActive && pid.atTargetPoint()) coreHEX.setPower(1.0);
+        if (opInputs.shootActive && pid.isAtTargetPoint) coreHEX.setPower(1.0);
         else coreHEX.setPower(-1.0);
 
-        if (oi.intakeToggle) intakeMotor.setPower(1);
+        if (opInputs.intakeToggle) intakeMotor.setPower(1);
         else intakeMotor.setPower(-1);
 
         // inputs
-        oi.update();
+        opInputs.update();
 
-        telemetry.addData("Shooter speed", oi.shooterSpeed);
-        telemetry.addData("Shooter State", oi.isShooterOn ? "On" : "Off");
-        telemetry.addData("is Shooting", oi.shootActive);
-        telemetry.addData("Can shoot", pid.atTargetPoint());
-        telemetry.addData("Intake State", oi.intakeToggle ? "Pushing" : "Pulling");
+        telemetry.addData("Shooter speed", opInputs.shooterSpeed);
+        telemetry.addData("Shooter State", opInputs.isShooterOn ? "On" : "Off");
+        telemetry.addData("is Shooting", opInputs.shootActive);
+        telemetry.addData("Can shoot", pid.isAtTargetPoint);
+        telemetry.addData("Intake State", opInputs.intakeToggle ? "Pushing" : "Pulling");
         telemetry.update();
 
     }
