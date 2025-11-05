@@ -35,10 +35,7 @@ public class PIDController {
         timer.reset();
         double output = (error * kP) + (derivative * kD) + (integralSum * kI) + kF;
         telemetry.addData("Error", error);
-        isAtTargetPoint = Math.abs(error) < 145.0;
-        return output;
-    }
-    public boolean atTargetPoint() {
-        return isAtTargetPoint;
+        isAtTargetPoint = Math.abs(error) < 400.0;
+        return Math.max(1, output);
     }
 }
