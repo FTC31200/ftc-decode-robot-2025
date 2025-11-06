@@ -15,9 +15,11 @@ public class ArcadeDrive extends OpMode {
     private DcMotor coreHEX;
     private DcMotor intakeMotor;
     private CRServo servo;
-    PIDController pid = new PIDController(.005, 0, 0, .05, telemetry);
+    PIDController pid = new PIDController(.005, 0, 0, .02
+            , telemetry);
 
     private OperatorInputs opInputs;
+
     @Override
     public void init() {
         opInputs = new OperatorInputs(gamepad1, telemetry);
