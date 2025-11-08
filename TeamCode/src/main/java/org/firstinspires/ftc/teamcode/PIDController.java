@@ -17,7 +17,7 @@ public class PIDController {
     private double lastError = 0;
     public boolean isAtTargetPoint = false;
     public Telemetry telemetry;
-
+    private double tolerance = 20.0;
     public PIDController(double kP, double kI, double kD, double kF, Telemetry telemetry) {
         this.kP = kP;
         this.kI = kI;
@@ -35,8 +35,10 @@ public class PIDController {
         timer.reset();
         double output = (error * kP) + (derivative * kD) + (integralSum * kI) + kF;
         telemetry.addData("Error", error);
-        isAtTargetPoint = Math.abs(error) < 160;
+        isAtTargetPoint = Math.abs(error) < tolerance;
         return output;
-
+    }
+    void setTolerance(double tolerance) {
+        this.tolerance = tolerance;
     }
 }
