@@ -7,7 +7,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class OperatorInputs {
     public Gamepad gamepad;
     public Telemetry telemetry;
-    private boolean prevRightTrigger = false;
     private boolean prevLeftTrigger = false;
     public boolean intakeToggle = false;
     public double shooterSpeed = 1500.0;
@@ -25,10 +24,9 @@ public class OperatorInputs {
         turn = gamepad.right_stick_x;
 
         if (gamepad.left_trigger > 0.05 && !prevLeftTrigger) intakeToggle = !intakeToggle;
-        if (gamepad.right_trigger > 0.05 && !prevRightTrigger) shootActive = !shootActive;
+        shootActive = gamepad.right_trigger > 0.05;
 
         prevLeftTrigger = gamepad.left_trigger > 0.05;
-        prevRightTrigger = gamepad.right_trigger > 0.05;
 
         if (gamepad.dpadDownWasPressed()) isShooterOn = !isShooterOn;
 
