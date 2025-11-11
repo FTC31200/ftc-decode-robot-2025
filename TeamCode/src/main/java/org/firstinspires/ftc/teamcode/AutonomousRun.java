@@ -29,18 +29,18 @@ public class AutonomousRun extends LinearOpMode {
         coreHEX.setDirection(DcMotor.Direction.REVERSE);
         servo.setDirection(CRServo.Direction.REVERSE);
 
-        coreHEX.setPower(-1.0);
-        servo.setPower(1.0);
-
         pid.setTolerance(145.0);
 
         waitForStart();
 
         if (opModeIsActive()) {
+            coreHEX.setPower(-1.0);
+            servo.setPower(1.0);
+            sleep(300);
 
             leftMotor.setPower(-0.5);
             rightMotor.setPower(-0.5);
-            sleep(1000);
+            sleep(1270);
 
             leftMotor.setPower(0);
             rightMotor.setPower(0);
@@ -49,10 +49,10 @@ public class AutonomousRun extends LinearOpMode {
             shooterMotor.setPower(1.0);
             servo.setPower(1.0);
             for (int i = 0; i < 3; i++) {
+                sleep(1200);
                 pid.isAtTargetPoint = false;
                 shoot();
                 waitForBall();
-                sleep(1000);
             }
         }
         stop();
@@ -62,10 +62,10 @@ public class AutonomousRun extends LinearOpMode {
         while (!pid.isAtTargetPoint) {
             telemetry.addData("ShooterSpeed", shooterMotor.getVelocity());
             telemetry.update();
-            double power = pid.calculate(1800, shooterMotor.getVelocity());
+            double power = pid.calculate(1700, shooterMotor.getVelocity());
             shooterMotor.setPower(power);
         }
-        sleep(500);
+        sleep(300);
         coreHEX.setPower(1.0);
     }
 
@@ -73,9 +73,8 @@ public class AutonomousRun extends LinearOpMode {
         while (true) {
             telemetry.addData("ShooterSpeed", shooterMotor.getVelocity());
             telemetry.update();
-            if (shooterMotor.getVelocity() < 1100) break;
+            if (shooterMotor.getVelocity() < 1300) break;
         }
-        sleep(100);
         coreHEX.setPower(-1.0);
     }
 }
