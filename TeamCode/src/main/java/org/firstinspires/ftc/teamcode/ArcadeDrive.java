@@ -75,6 +75,8 @@ public class ArcadeDrive extends OpMode {
             double power = pid.calculate(opInputs.shooterSpeed, shooterMotor.getVelocity());
             telemetry.addData("PID Power", power);
             telemetry.addData("Is at set point", pid.isAtTargetPoint);
+            telemetry.addData("Shooter Target  Speed", opInputs.shooterSpeed);
+            telemetry.addData("Shooter Current Speed", shooterMotor.getVelocity());
             shooterMotor.setPower(power);
         } else shooterMotor.setPower(0.0);
 
